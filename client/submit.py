@@ -71,6 +71,7 @@ if __name__ == "__main__":
     valid = 0
   if valid == 0:
     print(" + Please check your my.info file!\n")
+    exit(-5)
 
   ## Attempt to establish connection with server
   s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -100,12 +101,17 @@ if __name__ == "__main__":
   tests_passed = 0
   ntests = int(s.recv(1024))
   for i in range(ntests):
+
+    print('Running  {0:5.1f}%'.format(100.*i/ntests), end='\r')
+    sys.stdout.flush()
+
     arg = int(s.recv(1024))
     out = run_test(sys.argv[1],arg)
     s.send(out)
     valid = s.recv(1024)
     if valid == "valid": tests_passed += 1
 
+  print('Running  {0:5.1f}%'.format(100.))
   ## Notify submitter of result
   s.close()
   print('Tests passed: {0:d} of {1:d}\n'.format(tests_passed, ntests))

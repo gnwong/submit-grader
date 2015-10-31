@@ -5,7 +5,7 @@
 
 from __future__ import print_function
 import subprocess
-import random, socket
+import random, socket, time
 
 
 ####
@@ -17,7 +17,7 @@ ALLOWED_MODES = \
 
 PORT_NUMBER  = 4242
 ALLOW_CONN   = 5
-NUM_TESTS    = 10
+NUM_TESTS    = 50
 
 ####
 
@@ -96,9 +96,13 @@ if __name__ == "__main__":
       numcorrect = 0
       for i in range(NUM_TESTS):
         rand = random.randint(0,100)
+        time.sleep(0.01)
         connection.send(str(rand))
+        time.sleep(0.01)
         ser_res = str(run_test(mode, rand)).rstrip()
+        time.sleep(0.01)
         cli_res = str(connection.recv(1024)).rstrip()
+        time.sleep(0.01)
         print(ser_res, cli_res)
         if (ser_res == cli_res):
           numcorrect += 1
