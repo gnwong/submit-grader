@@ -22,9 +22,12 @@ NUM_TESTS    = 50
 ####
 
 
-def update_file(name, data, score):
-  fp = open("scores/" + name + ".dat", "a+")
-  # TODO
+def update_file(name, data, mode, score, smax):
+  fp = open("scores/" + name + "_" + mode + ".dat", "w")
+  fp.write("\n")
+  for i in range(len(data)):
+    fp.write(data[i] + "\n")
+  fp.write("\nSCORE: " + str(score) + " / " + str(smax) + "\n")
   fp.close()
   return
 
@@ -111,7 +114,7 @@ if __name__ == "__main__":
           connection.send("bad")
 
       connection.close()
-      update_file(INFO[1], INFO, numcorrect)
+      update_file(INFO[1], INFO, mode, numcorrect, NUM_TESTS)
       print("Connection closed for " + str(address))
     except:
       pass
